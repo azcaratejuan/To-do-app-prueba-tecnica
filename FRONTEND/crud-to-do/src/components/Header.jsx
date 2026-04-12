@@ -24,10 +24,10 @@ export default function Header({ tasks = [] }) {
         </div>
 
         <div className="flex items-center gap-4">
-          <Link to="/" className="hover:bg-white hover:bg-opacity-20 p-2 rounded-full transition-all duration-200">
+          <Link to="/" className="hover:bg-blue-400 hover:bg-opacity-20 p-2 rounded-full transition-all duration-200">
             <Home size={22} />
           </Link>
-          <Link to="/create" className="hover:bg-white hover:bg-opacity-20 p-2 rounded-full transition-all duration-200">
+          <Link to="/create" className="hover:bg-blue-400 hover:bg-opacity-20 p-2 rounded-full transition-all duration-200">
             <Plus size={22} />
           </Link>
           {user && (
@@ -42,7 +42,7 @@ export default function Header({ tasks = [] }) {
               <span className="text-sm font-medium">{user.displayName}</span>
               <button
                 onClick={logout}
-                className="hover:bg-white hover:bg-opacity-20 p-2 rounded-full transition-all duration-200"
+                className="hover:bg-blue-400 hover:bg-opacity-20 p-2 rounded-full transition-all duration-200"
               >
                 <LogOut size={18} />
               </button>
