@@ -1,1 +1,1 @@
-web: gunicorn to_do.wsgi --bind 0.0.0.0:$PORT
+web: python manage.py migrate && gunicorn to_do.wsgi --bind 0.0.0.0:$PORT
