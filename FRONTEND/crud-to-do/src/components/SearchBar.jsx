@@ -22,13 +22,21 @@ export default function SearchBar({ searchType, setSearchType, search, setSearch
           <option value='completed'>Completada</option>
           <option value='in_progress'>En Progreso</option>
         </select>
-      ) : (
+      ) : searchType === 'user' ? (
         <input
           type='text'
-          placeholder={`Buscar por ${searchType === 'title' ? 'nombre' : searchType === 'description' ? 'descripción' : 'usuario'}...`}
+          placeholder='Buscar por nombre de usuario...'
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className='border rounded px-3 py-2 w-full text-gray-700'
+        />
+      ) : (
+        <input
+          type='text'
+          placeholder={`Buscar por ${searchType === 'title' ? 'nombre' : 'descripción'}...`}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className='border rounded px-3 py-2 w-full text-gray.700'
         />
       )}
     </div>

@@ -16,7 +16,7 @@ export default function TaskList({ tasks, setTasks }) {
   const tasksLoad = async (search_user = '') => {
     try {
       notify('Cargando tareas...', 'loading')
-      const response = await getTasks(null, search_user) // ← null para ver todas
+      const response = await getTasks(null, search_user)
       const data = Array.isArray(response.data) ? response.data : response.data.data ?? []
       setTasks(data)
       setFilteredTasks(data)
@@ -43,13 +43,9 @@ export default function TaskList({ tasks, setTasks }) {
     if (dbUser) tasksLoad()
   }, [dbUser])
 
+  // filtrado local por título y descripción
   useEffect(() => {
-    // búsqueda por usuario va al backend
-    if (searchType === 'user') {
-      tasksLoad(search)
-      return
-    }
-    // búsqueda por título o descripción se filtra en el frontend
+    if (searchType === 'user') return
     if (!search.trim()) {
       setFilteredTasks(tasks)
       return
@@ -59,6 +55,15 @@ export default function TaskList({ tasks, setTasks }) {
     )
     setFilteredTasks(filtered)
   }, [search, searchType, tasks])
+
+  // búsqueda por usuario con debounce para evitar peticiones infinitas
+  useEffect(() => {
+    if (searchType !== 'user') return
+    const timeout = setTimeout(() => {
+      tasksLoad(search)
+    }, 500)
+    return () => clearTimeout(timeout)
+  }, [search, searchType])
 
   return (
     <div className='mt-8 flex flex-col items-center'>
