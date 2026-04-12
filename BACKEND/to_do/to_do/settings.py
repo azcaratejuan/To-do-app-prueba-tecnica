@@ -133,8 +133,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-CORS_ALLOWED_ORIGIN_REGEXES = [
-    r"^https://to-do-app-prueba-tecnica.*\.vercel\.app$",
-    r"^http://localhost:5173$",
-    r"^http://localhost:4173$",
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://localhost:4173",
+    "https://to-do-app-prueba-tecnica.vercel.app"
 ]
