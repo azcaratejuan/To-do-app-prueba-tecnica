@@ -16,7 +16,7 @@ export default function TaskList({ tasks, setTasks }) {
   const tasksLoad = async (search_user = '') => {
     try {
       notify('Cargando tareas...', 'loading')
-      const response = await getTasks(dbUser?.firebase_uid, search_user)
+      const response = await getTasks(null, search_user) // ← null para ver todas
       const data = Array.isArray(response.data) ? response.data : response.data.data ?? []
       setTasks(data)
       setFilteredTasks(data)
