@@ -84,6 +84,7 @@ WSGI_APPLICATION = 'to_do.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
+print(f"DATABASE_URL found: {bool(DATABASE_URL)}")  # ← agrega esto
 
 if DATABASE_URL:
     DATABASES = {
