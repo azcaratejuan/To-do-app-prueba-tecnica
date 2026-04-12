@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { auth, loginWithGoogle, logout } from '../firebase'
+import { auth, loginWithGoogle, logout } from '../firebase.js'
 import { onAuthStateChanged } from 'firebase/auth'
 import { loginUser } from '../api/tasks'
 
