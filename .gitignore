@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+db.sqlite3
+venv/
+env/
+
+# Node
+node_modules/
+dist/
+.env
+.env.local
+
+# Firebase
+firebase.js
