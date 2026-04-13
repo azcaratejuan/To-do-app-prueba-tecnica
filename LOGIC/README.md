@@ -6,6 +6,8 @@
 ---
 ## Ubicacion e instalacion 
 
+1. Entra a la carpeta del proyecto:
+```bash
 cd To-do-app-prueba-tecnica/LOGIC
 ```
 
