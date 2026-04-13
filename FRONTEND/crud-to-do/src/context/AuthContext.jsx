@@ -7,22 +7,22 @@ const AuthContext = createContext()
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
-  const [dbUser, setDbUser] = useState(null) // usuario de la base de datos
+  const [dbUser, setDbUser] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const unsuscribe = onAuthStateChanged(auth, async (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser)
         try {
-          // registra o recupera el usuario en la base de datos
+          // Sincroniza el usuario de Firebase con la API.
           const response = await loginUser({
             firebase_uid: currentUser.uid,
             name: currentUser.displayName,
             email: currentUser.email,
             photo_url: currentUser.photoURL,
           })
-          setDbUser(response.data.data) // guarda el usuario con su id de la db
+          setDbUser(response.data.data)
         } catch (error) {
           console.error('Error al registrar usuario:', error)
         }
@@ -33,7 +33,7 @@ export function AuthProvider({ children }) {
       setLoading(false)
     })
 
-    return () => unsuscribe()
+    return () => unsubscribe()
   }, [])
 
   return (

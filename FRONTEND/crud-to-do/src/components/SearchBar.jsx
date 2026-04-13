@@ -3,7 +3,10 @@ export default function SearchBar({ searchType, setSearchType, search, setSearch
     <div className='flex gap-2 mt-4 mb-4 w-full max-w-md'>
       <select
         value={searchType}
-        onChange={(e) => { setSearchType(e.target.value); setSearch('') }}
+        onChange={(e) => {
+          setSearchType(e.target.value)
+          setSearch('')
+        }}
         className='border rounded px-3 py-2 text-gray-700'
       >
         <option value='title'>Nombre</option>
@@ -36,7 +39,7 @@ export default function SearchBar({ searchType, setSearchType, search, setSearch
           placeholder={`Buscar por ${searchType === 'title' ? 'nombre' : 'descripción'}...`}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className='border rounded px-3 py-2 w-full text-gray.700'
+          className='border rounded px-3 py-2 w-full text-gray-700'
         />
       )}
     </div>

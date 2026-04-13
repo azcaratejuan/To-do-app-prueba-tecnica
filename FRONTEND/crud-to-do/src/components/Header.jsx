@@ -3,12 +3,16 @@ import { BookCheck, ClipboardPen, Home, Plus, LogOut } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 export default function Header({ tasks = [] }) {
-  const { user, logout } = useAuth()
-  const pending = tasks.filter(t => t.state === 'pending' || t.state === 'in_progress').length
-  const completed = tasks.filter(t => t.state === 'completed').length
+  const { user, logout } = useAuth();
+  // Conteo rapido para las insignias del header.
+  const pending = tasks.filter((t) => t.state === "pending" || t.state === "in_progress").length;
+  const completed = tasks.filter((t) => t.state === "completed").length;
 
   return (
-    <nav style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }} className="text-white p-4 shadow-lg">
+    <nav
+      style={{ background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" }}
+      className="text-white p-4 shadow-lg"
+    >
       <div className="container mx-auto flex items-center justify-between">
         <h1 className="text-2xl font-bold tracking-wide">To-Do</h1>
 
@@ -36,7 +40,9 @@ export default function Header({ tasks = [] }) {
                 src={user.photoURL}
                 alt="foto"
                 referrerPolicy="no-referrer"
-                onError={(e) => e.target.src = `https://ui-avatars.com/api/?name=${user.displayName}&background=random`}
+                onError={(e) => {
+                  e.target.src = `https://ui-avatars.com/api/?name=${user.displayName}&background=random`;
+                }}
                 className="w-8 h-8 rounded-full ring-2 ring-white ring-opacity-50"
               />
               <span className="text-sm font-medium">{user.displayName}</span>
@@ -51,5 +57,5 @@ export default function Header({ tasks = [] }) {
         </div>
       </div>
     </nav>
-  )
+  );
 }

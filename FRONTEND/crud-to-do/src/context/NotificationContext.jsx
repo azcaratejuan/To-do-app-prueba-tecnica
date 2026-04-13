@@ -4,7 +4,7 @@ const NotificationContext = createContext()
 
 const typeConfig = {
   success: 'bg-green-500',
-  error:   'bg-red-500',
+  error: 'bg-red-500',
   loading: 'bg-blue-500',
   warning: 'bg-orange-500',
 }
@@ -12,7 +12,7 @@ const typeConfig = {
 function NotificationContainer({ notifications }) {
   return (
     <div className='fixed bottom-4 right-4 flex flex-col gap-2 z-50'>
-      {notifications.map(n => (
+      {notifications.map((n) => (
         <div
           key={n.id}
           className={`${typeConfig[n.type]} text-white px-4 py-2 rounded shadow-lg text-sm`}
@@ -26,13 +26,14 @@ function NotificationContainer({ notifications }) {
 
 export function NotificationProvider({ children }) {
   const [notifications, setNotifications] = useState([])
-  const counter = useRef(0) // ← contador único
+  const counter = useRef(0)
 
   const notify = (message, type = 'success') => {
-    const id = counter.current++ // ← siempre único
-    setNotifications(prev => [...prev, { id, message, type }])
+    // Genera ids incrementales para evitar colisiones.
+    const id = counter.current++
+    setNotifications((prev) => [...prev, { id, message, type }])
     setTimeout(() => {
-      setNotifications(prev => prev.filter(n => n.id !== id))
+      setNotifications((prev) => prev.filter((n) => n.id !== id))
     }, 3000)
   }
 

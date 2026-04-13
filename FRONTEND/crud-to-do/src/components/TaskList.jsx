@@ -22,7 +22,7 @@ export default function TaskList({ tasks, setTasks }) {
       setFilteredTasks(data)
       notify('Tareas cargadas', 'success')
     } catch (error) {
-      console.error("Error al cargar tareas:", error)
+      console.error('Error al cargar tareas:', error)
       notify('Error al cargar las tareas', 'error')
     }
   }
@@ -34,7 +34,7 @@ export default function TaskList({ tasks, setTasks }) {
       notify('Tarea eliminada exitosamente', 'success')
       tasksLoad()
     } catch (error) {
-      console.error("Error al eliminar tarea:", error)
+      console.error('Error al eliminar tarea:', error)
       notify('Error al eliminar la tarea', 'error')
     }
   }
@@ -43,7 +43,7 @@ export default function TaskList({ tasks, setTasks }) {
     if (dbUser) tasksLoad()
   }, [dbUser])
 
-  // filtrado local por título y descripción
+  // Filtrado local por campos de texto.
   useEffect(() => {
     if (searchType === 'user') return
     if (!search.trim()) {
@@ -56,7 +56,7 @@ export default function TaskList({ tasks, setTasks }) {
     setFilteredTasks(filtered)
   }, [search, searchType, tasks])
 
-  // búsqueda por usuario con debounce para evitar peticiones infinitas
+  // Debounce para evitar demasiadas peticiones al buscar usuario.
   useEffect(() => {
     if (searchType !== 'user') return
     const timeout = setTimeout(() => {

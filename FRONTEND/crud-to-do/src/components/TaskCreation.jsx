@@ -1,43 +1,43 @@
 import { useEffect, useState } from 'react'
-import { getTask, createTask, updateTask } from '../api/tasks';
-import { useNavigate, useParams } from 'react-router';
-import { useNotification } from '../context/NotificationContext';
-import { useAuth } from '../context/AuthContext';
+import { getTask, createTask, updateTask } from '../api/tasks'
+import { useNavigate, useParams } from 'react-router'
+import { useNotification } from '../context/NotificationContext'
+import { useAuth } from '../context/AuthContext'
 
 const MAX_TITLE = 50
 
 export default function TaskCreation() {
-
   const [task, setTask] = useState({
     title: '',
     description: '',
-    state: 'pending'
+    state: 'pending',
   })
 
   const { dbUser } = useAuth()
-  const Navigate = useNavigate()
-  const Params = useParams()
+  const navigate = useNavigate()
+  const params = useParams()
   const { notify } = useNotification()
 
   useEffect(() => {
-    if (Params.id) {
+    if (params.id) {
+      // Si hay id, carga la tarea para modo edicion.
       const loadTask = async () => {
         try {
           notify('Cargando tarea...', 'loading')
-          const response = await getTask(Params.id)
+          const response = await getTask(params.id)
           setTask(response.data)
           notify('Tarea cargada', 'success')
         } catch (error) {
           notify(error.message || 'Error al cargar la tarea', 'error')
-          Navigate('/')
+          navigate('/')
         }
       }
       loadTask()
     }
-  }, [Params.id])
+  }, [params.id, navigate, notify])
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (!task.title.trim()) {
       notify('El título es requerido', 'warning')
@@ -50,20 +50,20 @@ export default function TaskCreation() {
     }
 
     try {
-      if (Params.id) {
+      if (params.id) {
         notify('Actualizando tarea...', 'loading')
-        await updateTask(Params.id, task, dbUser?.firebase_uid) // ← uid para saber quién editó
+        await updateTask(params.id, task, dbUser?.firebase_uid)
         notify('Tarea actualizada exitosamente', 'success')
       } else {
         notify('Creando tarea...', 'loading')
-        await createTask(task, dbUser?.firebase_uid) // ← uid para saber quién creó
+        await createTask(task, dbUser?.firebase_uid)
         notify('Tarea creada exitosamente', 'success')
       }
-      Navigate('/')
+      navigate('/')
     } catch (error) {
       notify(error.message || 'Error al guardar la tarea', 'error')
     }
-  };
+  }
 
   return (
     <div className='m-20'>
@@ -120,7 +120,7 @@ export default function TaskCreation() {
         <button
           type='button'
           className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-4'
-          onClick={() => Navigate('/')}
+          onClick={() => navigate('/')}
         >
           Cancelar
         </button>

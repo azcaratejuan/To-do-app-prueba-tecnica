@@ -2,9 +2,9 @@ import { useNavigate } from 'react-router'
 import { Pencil, Trash2 } from 'lucide-react'
 
 const stateConfig = {
-  pending:     { label: 'Pendiente',   color: 'text-orange-500' },
-  completed:   { label: 'Completada',  color: 'text-green-500'  },
-  in_progress: { label: 'En Progreso', color: 'text-red-500'    },
+  pending: { label: 'Pendiente', color: 'text-orange-500' },
+  completed: { label: 'Completada', color: 'text-green-500' },
+  in_progress: { label: 'En Progreso', color: 'text-red-500' },
 }
 
 const truncateTitle = (text) => {
@@ -16,6 +16,7 @@ const truncateDescription = (text) => {
   if (!text) return ''
   const charsPerLine = 20
   if (text.length <= charsPerLine * 3) return text
+  // Corta en 3 lineas para evitar cards muy altas.
   const line1 = text.slice(0, charsPerLine)
   const line2 = text.slice(charsPerLine, charsPerLine * 2)
   const line3 = text.slice(charsPerLine * 2, charsPerLine * 3)
@@ -28,12 +29,12 @@ const formatDate = (dateString) => {
     month: 'short',
     day: 'numeric',
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
   })
 }
 
 export default function TaskCard({ task, onDelete }) {
-  const Navigate = useNavigate()
+  const navigate = useNavigate()
 
   return (
     <div className='border p-4 mt-4 rounded w-full max-w-md'>
@@ -48,16 +49,21 @@ export default function TaskCard({ task, onDelete }) {
       <p className='text-sm text-gray-500 whitespace-pre-line'>
         {truncateDescription(task.description)}
       </p>
-<div className='mt-2 text-xs text-gray-400'>
-  <p>Creado por: <span className='text-gray-500'>{task.created_by_name ?? 'Desconocido'}</span></p>
-  <p>Editado por: <span className='text-gray-500'>{task.updated_by_name ?? 'Desconocido'}</span></p>
-  <p>Creado el: {formatDate(task.created_at)}</p>
-  <p>Editado el: {formatDate(task.updated_at)}</p>
-</div>
+      {/* Metadatos de auditoria basicos. */}
+      <div className='mt-2 text-xs text-gray-400'>
+        <p>
+          Creado por: <span className='text-gray-500'>{task.created_by_name ?? 'Desconocido'}</span>
+        </p>
+        <p>
+          Editado por: <span className='text-gray-500'>{task.updated_by_name ?? 'Desconocido'}</span>
+        </p>
+        <p>Creado el: {formatDate(task.created_at)}</p>
+        <p>Editado el: {formatDate(task.updated_at)}</p>
+      </div>
       <div className='flex gap-2 mt-2'>
         <button
           className='bg-blue-500 hover:bg-blue-700 text-white p-2 rounded'
-          onClick={() => Navigate(`/edit/${task.id}`)}
+          onClick={() => navigate(`/edit/${task.id}`)}
         >
           <Pencil size={16} />
         </button>

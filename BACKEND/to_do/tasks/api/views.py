@@ -4,13 +4,18 @@ from rest_framework.decorators import action
 from tasks.models import Task, User
 from .serializers import TaskSerializer, UserSerializer
 
+
 class UserViewSet(viewsets.ModelViewSet):
+    
     serializer_class = UserSerializer
     queryset = User.objects.all()
-
+    # Action declara la funcion de abajo como un 
+    # método personalizado para manejar 
+    # el login de usuarios a través de Firebase.
     @action(detail=False, methods=['post'])
     def login(self, request):
         try:
+            # Valida el identificador principal de Firebase.
             firebase_uid = request.data.get('firebase_uid')
             if not firebase_uid:
                 return Response(
@@ -18,7 +23,11 @@ class UserViewSet(viewsets.ModelViewSet):
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
-            user, created = User.objects.get_or_create(
+            # Crea el usuario si no existe; si existe, solo lo recupera.
+            user, created = User.objects.get_or_create( 
+            # get or create busca un usuario con el firebase_uid dado, 
+            # si no lo encuentra, lo crea con los datos proporcionados
+            # en defaults
                 firebase_uid=firebase_uid,
                 defaults={
                     'name': request.data.get('name', ''),
@@ -46,15 +55,19 @@ class TaskViewSet(viewsets.ModelViewSet):
             firebase_uid = self.request.query_params.get('firebase_uid')
             search_user = self.request.query_params.get('search_user')
 
+            # Filtros opcionales por usuario creador y nombre.
             if firebase_uid:
                 queryset = queryset.filter(created_by__firebase_uid=firebase_uid)
             if search_user:
                 queryset = queryset.filter(created_by__name__icontains=search_user)
+
+            # Valida estado antes de filtrar.
             if state:
                 valid_states = ['pending', 'in_progress', 'completed']
                 if state not in valid_states:
                     return None
                 queryset = queryset.filter(state=state)
+
             return queryset
         except Exception as e:
             return None
@@ -88,7 +101,7 @@ class TaskViewSet(viewsets.ModelViewSet):
             if not request.data.get('title', '').strip():
                 return Response({'error': 'El campo "title" es requerido'}, status=status.HTTP_400_BAD_REQUEST)
 
-            # obtiene el usuario por firebase_uid
+            # Obtiene el usuario creador por firebase_uid.
             firebase_uid = request.data.get('firebase_uid')
             user = None
             if firebase_uid:
@@ -121,7 +134,7 @@ class TaskViewSet(viewsets.ModelViewSet):
             if not request.data:
                 return Response({'error': 'No se enviaron datos'}, status=status.HTTP_400_BAD_REQUEST)
 
-            # obtiene el usuario que está editando
+            # Obtiene el usuario que está editando.
             firebase_uid = request.data.get('firebase_uid')
             user = None
             if firebase_uid:
