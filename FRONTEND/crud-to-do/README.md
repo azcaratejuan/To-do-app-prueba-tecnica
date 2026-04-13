@@ -1,18 +1,81 @@
-# React + Vite
+# CRUD To-Do Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicacion frontend construida con React + Vite para gestionar tareas.
 
-Currently, two official plugins are available:
+## Requisito Importante
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Primero debes tener el backend montado y ejecutandose.
 
-## React Compiler
+Si el backend no esta activo, el frontend no podra:
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+1. autenticar usuarios,
+2. crear/editar/eliminar tareas,
+3. consultar la lista de tareas.
 
-Note: This will impact Vite dev & build performances.
+## Requisitos
 
-## Expanding the ESLint configuration
+1. Node.js 18+ (recomendado 20+)
+2. npm
+3. Backend levantado (API de tasks/users disponible)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 1) Entrar al proyecto
+
+```bash
+cd crud-to-do
+```
+
+## 2) Instalar dependencias
+
+```bash
+npm install
+```
+
+## 3) Configurar variables de entorno (Firebase)
+
+Crea un archivo `.env` en la raiz del frontend con estas variables:
+
+```env
+VITE_FIREBASE_API_KEY=tu_api_key
+VITE_FIREBASE_AUTH_DOMAIN=tu_auth_domain
+VITE_FIREBASE_PROJECT_ID=tu_project_id
+VITE_FIREBASE_STORAGE_BUCKET=tu_storage_bucket
+VITE_FIREBASE_MESSAGING_SENDER_ID=tu_sender_id
+VITE_FIREBASE_APP_ID=tu_app_id
+```
+
+## 4) Configurar la URL del backend
+
+En [src/api/tasks.js](src/api/tasks.js) ajusta la constante `BASE`.
+
+Ejemplo para backend local:
+
+```js
+const BASE = 'http://127.0.0.1:8000/api/'
+```
+
+## 5) Levantar el frontend
+
+```bash
+npm run dev
+```
+
+Abre la URL que muestra Vite (normalmente `http://localhost:5173`).
+
+## Scripts disponibles
+
+1. `npm run dev`: desarrollo local
+2. `npm run build`: build de produccion
+3. `npm run preview`: previsualizar build
+4. `npm run lint`: ejecutar ESLint
+
+## Flujo recomendado de arranque
+
+1. Levantar backend
+2. Verificar que responda en su URL local
+3. Levantar frontend con `npm run dev`
+4. Iniciar sesion con Google y validar operaciones CRUD
+
+## Decisiones de diseno
+
+1. Se eligio Vite porque es muy compatible con React y su ecosistema.
+2. Tambien se eligio por su velocidad en desarrollo (arranque rapido del servidor y recarga en caliente eficiente).

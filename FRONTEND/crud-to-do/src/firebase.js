@@ -1,6 +1,7 @@
-import { initializeApp } from "firebase/app"
+import { initializeApp } from 'firebase/app'
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth'
 
+// Configuracion leida desde variables de entorno de Vite.
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -14,5 +15,6 @@ const app = initializeApp(firebaseConfig)
 export const auth = getAuth(app)
 export const googleProvider = new GoogleAuthProvider()
 
+// Helpers usados desde el contexto de autenticacion.
 export const loginWithGoogle = () => signInWithPopup(auth, googleProvider)
 export const logout = () => signOut(auth)
